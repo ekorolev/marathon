@@ -1,0 +1,21 @@
+<a href='#/marathon'>К марафону</a>
+<div class='student' ng-controller='studentController'>
+	<h2>
+	<span ng-bind='student.name'></span>
+	<span ng-bind='student.family'></span>
+	</h2>
+</div>
+
+<div class='visits'>
+	<h4>Посещенные занятия:</h4>
+	<ul>
+		<li ng-repeat='visit in visits' style='font-size: 20px;'>
+			<small>{{visit.day | date: 'dd.MM.yy' }}<small>
+			<strong>{{visit.subject | subject}}</strong>
+			<span ng-if='!(!!visit.visit)' class='text-warning'>Прогул</span>
+			<a ng-if="auth_user.role=='admin'" ng-click='do_no_visit(visit._id)'>
+				Убрать посещение
+			</a>
+		</li>
+	</ul>
+</div>

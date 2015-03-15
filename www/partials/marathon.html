@@ -1,0 +1,67 @@
+<div ng-controller='marathonController'>
+	<table class='table table-hover'>
+		<tbody>
+		<tr>
+			<td><font style='font-size: 20px;'>Студент</font></td>
+			<td><font style='font-size: 20px;'>Кол-во посещений</font></td>
+			<td ng-if='auth_user.role=="admin"'>
+			</td>
+		</tr>
+		<tr ng-repeat='student in students | orderBy: "-visit_count"'>
+			<td>
+				<a href='#/student/{{student._id}}'>{{student.name}} {{student.family}}</a>
+			</td>
+			<td>
+				{{student.visit_count}}
+			</td>
+			<td ng-if='auth_user.role=="admin"'>
+				<a ng-click='delete(student._id)'>X</a>
+				<input type='checkbox' ng-model='student.visit' ng-checked='student.visit'>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+
+	<tabset ng-if="auth_user.role=='admin'">
+		<tab heading='Новый студент' active>
+			<form>
+				<ul>
+					<li>
+						<input type='text' ng-model='new_student.name'>
+					</li>
+					<li>
+						<input type='text' ng-model='new_student.family'>
+					</li>
+					<li>
+						<input type='submit' ng-click='create(new_student)'>
+					</li>
+				</ul>
+			</form>
+		</tab>
+		<tab heading='Добавить посещение'>
+			<form class='form'>
+				<ul>
+					<li>Предмет:
+						<select ng-model='visit.subject'>
+							<option  ng-repeat='subj in subjects' value='{{subj.code}}'>{{subj.name}}</option>
+						</select>
+					</li>
+					<li>
+						Дата:<input type='date' ng-model='visit.day'>
+					</li>
+					<li>
+						Номер пары: <input type='number' ng-model='visit.num_of_subject'>
+					</li>
+					<li>
+						<input type='submit' ng-click='add_visit()'>
+					</li>
+				</ul>
+			</form>
+		</tab>
+		<tab heading='Другое'>
+			<ul>
+				<li><a ng-click='updateVisits()'>Обновить всем студентам посещаемость</a></li>
+			</ul>
+		</tab>
+	</tabset>
+</div>
