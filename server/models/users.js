@@ -5,12 +5,49 @@ module.exports = function (opts) {
 	var mongoose = opts.mongoose;
 
 	var schema = mongoose.Schema({
-		login: { type: String, unique: true},
+		login: { type: String },
 		password: String,
 		socket_id: String,
 		role: String,
+
+		first_name: String,
+		last_name: String,
+		email: { type:String },
+		sex: String,
 	});
 	addId(schema);
+
+	schema.pre('save', function (next) {
+		var self = this;
+
+		if (self.isNew) {
+
+			if (!self.email) {
+				next(new Error("email_empty"));
+			} else {
+
+				var Users = mongoose.models.users;
+
+				Users.findOne({
+					email: self.email
+				}, function (err, user) {
+
+					if (err) {
+						next(new Error("db_error"));
+					} else {
+
+						if (user) {
+							next(new Error("email_exist"));
+						} else {
+
+							next();
+						}
+					}
+				})
+			}
+
+		} else next();
+	});
 
 	schema.methods.isPwd = function (str, callback) {
 		var self = this;

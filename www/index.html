@@ -23,6 +23,7 @@
 		<script src="/js/angular-cookies.min.js"></script>
 		<script src="/js/ui-bootstrap.min.js"></script>
 		<script src="/js/app/index.js"></script>
+		<script src="/js/app/controllers.js"></script>
 		
 	</head>
 
@@ -37,7 +38,7 @@
 					<div class='pull-right user_panel' ng-if='!!auth'>
 						<ul class='nav navbar-nav'>
 							<li><span class='glyphicon glyphicon-user'></span></li>
-							<li><span ng-bind='auth_user.login' class='login'></span></li>
+							<li><span ng-bind='auth_user.email' class='login'></span></li>
 							<li><a href='' ng-click='logout()'><span class='glyphicon glyphicon-log-out'></span></a></li>
 						</ul>
 					</div>

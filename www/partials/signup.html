@@ -1,7 +1,36 @@
-<div ng-controller='signupController'>
-	<form novalidate>
-		<input type='text' ng-model='user.login'>
-		<input type='password' ng-model='user.password'>
-		<input type='submit' ng-click='signup(user)'>
-	</form>
+<div ng-if='load' class="progress progress-striped active">
+  <div class="progress-bar" style="width: 100%;">
+  </div>
 </div>
+<h2>Регистрация</h2>
+<form class="form-horizontal">
+  <div class='alert alert-danger' ng-if='!!error'>{{error}}</div>
+  <div class="form-group">
+    <label class="control-label col-xs-3" for="inputEmail">Email:</label>
+    <div class="col-xs-9">
+      <input ng-model='new_user.email' type="email" class="form-control" id="inputEmail" placeholder="Email" ng-focus='ch_box="email"'>
+    </div>
+  </div>
+  <div class='form-group'>
+    <div class='col-xs-9 col-md-offset-3' ng-if='ch_box=="email"'>Указывайте ваш настоящий почтовый адрес, т.к. он будет использоваться для связи с вами.</div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-xs-3" for="inputPassword">Пароль:</label>
+    <div class="col-xs-9">
+      <input ng-focus='ch_box=""' ng-model='new_user.password' type="password" class="form-control" id="inputPassword" placeholder="Введите пароль">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-xs-3" for="confirmPassword">Подтвердите пароль:</label>
+    <div class="col-xs-9">
+      <input ng-focus='ch_box=""' type="password" class="form-control" id="confirmPassword" placeholder="Введите пароль ещё раз">
+    </div>
+  </div>
+  <br />
+  <div class="form-group">
+    <div class="col-xs-offset-3 col-xs-9">
+      <input ng-click='signup(new_user)' type="submit" class="btn btn-primary" value="Регистрация">
+      <input type="reset" class="btn btn-default" value="Очистить форму">
+    </div>
+  </div>
+</form>

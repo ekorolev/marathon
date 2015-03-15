@@ -1,7 +1,26 @@
-<div ng-controller='signinController'>
-	<form novalidate>
-		<input type='text' ng-model='user.login'>
-		<input type='password' ng-model='user.password'>
-		<input type='submit' ng-click='signin(user)'>
-	</form>
+<div ng-if='load' class="progress progress-striped active">
+  <div class="progress-bar" style="width: 100%;">
+  </div>
 </div>
+<h2>Авторизация</h2>
+<form class="form-horizontal">
+  <div class='alert alert-danger' ng-if='!!iserror'>{{error | error_message}}</div>
+  <div class="form-group">
+    <label class="control-label col-xs-3" for="inputEmail">Email:</label>
+    <div class="col-xs-9">
+      <input ng-model='new_user.email' type="email" class="form-control" id="inputEmail" placeholder="Email">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-xs-3" for="inputPassword">Пароль:</label>
+    <div class="col-xs-9">
+      <input ng-model='new_user.password' type="password" class="form-control" id="inputPassword" placeholder="Введите пароль">
+    </div>
+  </div>
+  <br />
+  <div class="form-group">
+    <div class="col-xs-offset-3 col-xs-9">
+      <input ng-click='signin(new_user)' type="submit" class="btn btn-primary" value="Войти">
+    </div>
+  </div>
+</form>

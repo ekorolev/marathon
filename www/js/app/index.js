@@ -2,14 +2,15 @@
 var App = angular.module('App', [
 	'ngRoute',
 	'ngCookies',
-	'ui.bootstrap'
+	'ui.bootstrap',
+	'controllers'
 ]);
 
 App.config(['$routeProvider', 
 	function ($routeProvider) {
 		$routeProvider.
 			when('/', {
-				
+				templateUrl: 'partials/start.html'
 			}).
 			when('/signup', {
 				templateUrl: 'partials/signup.html',
@@ -57,16 +58,18 @@ App.controller('mainController', ['$rootScope', '$scope', 'socket', '$cookieStor
 				console.log("auth::check", data);
 				if (data.success) {
 					$root.auth_user = data.user;
-					$scope.auth = true;
+					$root.auth = true;
 				} else {
 
+					$root.auth = false;
+					$root.auth_user = {};
 					$cookie.remove("token");
 				}
 			});
 		}
 
 		$scope.logout = function () {
-			$scope.auth = false;
+			$root.auth = false;
 			$root.auth_user = {};
 			$cookie.remove("token");
 			socket.emit("auth::logout", function (data) {
@@ -99,7 +102,11 @@ App.controller('marathonController', ['$scope', 'socket',
 			socket.emit('students::create', new_student, function (data) {
 				if (data.success) {
 					if (!$scope.students) $scope.students = [];
+					data.student.visit = true;
 					$scope.students.push(data.student);
+
+					new_student.name = "";
+					new_student.family = "";
 				} else {
 					console.log(data);
 				}
@@ -113,13 +120,13 @@ App.controller('marathonController', ['$scope', 'socket',
 				id: id
 			}, function (data) {
 				if (data.success) {
-					var index;
+					var index=-1;
 					for (var i = 0; i < $scope.students.length; ++i ){
 						if ($scope.students[i]._id == id ) {
 							index = i;
 						}
 					}
-					if (index) $scope.students.splice(index, 1);
+					if (index+1) $scope.students.splice(index, 1);
 				}
 			});
 
@@ -163,16 +170,26 @@ App.controller('studentController', [
 
 App.controller('signupController', ['$rootScope', '$scope', 'socket', '$cookieStore', 
 	function ($root, $scope, socket, $cookie) {
+		$scope.load = false;
 
 		$scope.signup = function (user) {
+			$scope.load = true;
 
 			socket.emit('auth::signup', user, function (data) {
+				
 				console.log('auth::signup', data);
 
 				if (data.success) {
 
 					$cookie.put("token", data.token);
 					$root.auth_user = data.user;
+					$root.auth = true;
+					$scope.load = false;
+					window.location.href = '#/';
+				} else {
+
+					$scope.error = data.error;
+					$scope.load = false;
 				}
 			});
 
@@ -182,7 +199,10 @@ App.controller('signupController', ['$rootScope', '$scope', 'socket', '$cookieSt
 
 App.controller('signinController', ['$rootScope', '$scope', 'socket', '$cookieStore', 
 	function ($root, $scope, socket, $cookie) {
+		$scope.load = false;
 		$scope.signin = function (user) {
+			$scope.iserror = false;
+			$scope.load = true;
 			socket.emit('auth::signin', user, function (data) {
 				console.log('auth::signin', data);
 
@@ -191,6 +211,11 @@ App.controller('signinController', ['$rootScope', '$scope', 'socket', '$cookieSt
 					$root.auth_user = data.user;
 					$root.auth = true;
 					window.location.href = '#/';
+				} else {
+
+					$scope.iserror = true;
+					$scope.load = false;
+					$scope.error = data.error;
 				}
 			});
 		}
@@ -233,6 +258,16 @@ App.filter('subject', function (){
 			case 'op': return "Основы программирования";
 			case 'evm': return "Практикум ЭВМ";
 			case 'hist': return "История";
+			default: return null;
+		}
+	};
+});
+
+App.filter('error_message', function (){
+	return function (input) {
+		switch(input) {
+			case 'db_error': return "Ошибка базы данных. Попробуйте позже.";
+			case 'pwd': return "Неправильный логин или пароль. Попробуйте еще раз.";
 			default: return null;
 		}
 	};

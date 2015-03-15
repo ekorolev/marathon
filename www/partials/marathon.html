@@ -24,18 +24,17 @@
 
 	<tabset ng-if="auth_user.role=='admin'">
 		<tab heading='Новый студент' active>
-			<form>
-				<ul>
-					<li>
-						<input type='text' ng-model='new_student.name'>
-					</li>
-					<li>
-						<input type='text' ng-model='new_student.family'>
-					</li>
-					<li>
-						<input type='submit' ng-click='create(new_student)'>
-					</li>
-				</ul>
+			<form class='form-horizontal'>
+				<br />
+				<div class='form-group'>
+					<div class='col-xs-4'>
+						<input class='form-control' placeholder='Имя' type='text' ng-model='new_student.name'>
+					</div>
+					<div class='col-xs-4'>
+						<input class='form-control' placeholder='Фамилия' type='text' ng-model='new_student.family'>
+					</div>
+				</div>
+				<input class='btn btn-primary' type='submit' ng-click='create(new_student)'>
 			</form>
 		</tab>
 		<tab heading='Добавить посещение'>
