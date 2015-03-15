@@ -14,7 +14,7 @@ module.exports = function (socket, opts) {
 	socket.on('chat::get', function (data, callback) {
 		var Messages = opts.mongoose.models.messages;
 
-		var cursor = Messages.find().sort({created:-1}).limit(15);
+		var cursor = Messages.find().sort({created:1}).limit(15);
 		cursor.exec( function (err, messages) {
 			callback({
 				messages: messages
