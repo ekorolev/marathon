@@ -283,6 +283,8 @@ App.filter('subject', function (){
 			case 'diskrp': return "Дискретная математика (практика)";
 			case 'matanl': return "Математический анализ (лекция)";
 			case 'matanp': return "Математический анализ (практика)";
+			case 'algeml': return "Алгебра и геометрия (лекция)";
+			case 'algemp': return "Алгебра и геометрия (практика)";
 			case 'op': return "Основы программирования";
 			case 'evm': return "Практикум ЭВМ";
 			case 'hist': return "История";
