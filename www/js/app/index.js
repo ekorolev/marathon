@@ -28,11 +28,39 @@ App.config(['$routeProvider',
 				templateUrl: 'partials/student.html',
 				controller: 'studentController'
 			}).
+			when('/chat/', {
+				templateUrl: 'partials/chat.html',
+				controller: 'chatController'
+			}).
 			otherwise({
 				redirectTo: '/'
 			});
 	}
-])
+]);
+
+App.controller('chatController', ['$rootScope', '$scope', 'socket', 
+	function ($root, $scope, socket) {
+
+		socket.emit('chat::get', null, function (data) {
+			$scope.messages = data.messages;
+		})
+
+		$scope.send = function (message) {
+			socket.emit('chat::new_message', {
+				message: message
+			}, function (data){
+				if (data.success) {
+					$scope.messages.push(data.message);
+				}
+				$scope.message = "";
+			})
+		}
+
+		socket.on('chat::new_message', function (data) {
+			$scope.messages.push(data);
+		})
+	}
+]);
 
 App.controller('mainController', ['$rootScope', '$scope', 'socket', '$cookieStore',
 	function ($root, $scope, socket, $cookie) {

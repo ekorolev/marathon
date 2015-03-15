@@ -13,6 +13,13 @@ module.exports = function (opts) {
 		first_name: String,
 		last_name: String,
 		email: { type:String },
+		shemail: {
+			type: String,
+			get: function () {
+				var arr = this.email.split('@');
+				return arr[0];
+			}
+		},
 		sex: String,
 	});
 	addId(schema);

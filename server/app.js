@@ -29,6 +29,11 @@ var Visits = require('./models/visits')({
 	mongoose: mongoose,
 	io: io
 });
+var Messages = require('./models/messages')({
+	mongoose: mongoose,
+	io: io
+});
+
 server.listen(1995, function () {
 	console.log("Сервер запущен.");
 });
