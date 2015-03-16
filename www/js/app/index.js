@@ -41,7 +41,10 @@ App.config(['$routeProvider',
 App.controller('chatController', ['$rootScope', '$scope', 'socket', 
 	function ($root, $scope, socket) {
 
-		socket.emit('chat::get', null, function (data) {
+		socket.emit('chat::get', null, function (data) {					
+			for (var i = 0; i<data.messages.length; ++i ) {
+				data.messages[i].created = new Date(data.messages[i].created);
+			}
 			$scope.messages = data.messages;
 		})
 
@@ -50,6 +53,7 @@ App.controller('chatController', ['$rootScope', '$scope', 'socket',
 				message: message
 			}, function (data){
 				if (data.success) {
+					data.message.created = new Date(data.message.created);
 					$scope.messages.push(data.message);
 				}
 				$scope.message = "";
@@ -57,6 +61,7 @@ App.controller('chatController', ['$rootScope', '$scope', 'socket',
 		}
 
 		socket.on('chat::new_message', function (data) {
+			data.created = new Date(data.created);
 			$scope.messages.push(data);
 		})
 	}

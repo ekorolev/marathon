@@ -2,7 +2,8 @@
 	<div class="panel panel-default">
 		
 		<div class="panel-body">
-			<div class='' ng-repeat='msg in messages'>
+			<div class='' ng-repeat='msg in messages | orderBy: "created.getTime()" : false'>
+				{{msg.created.getTime()}}
 				<span class='label label-primary' ng-show='msg.user_id!=auth_user._id'>{{msg.name}}:</span>
 				<span class='label label-success' ng-show='msg.user_id==auth_user._id'>Вы:</span>
 				{{msg.message}}
