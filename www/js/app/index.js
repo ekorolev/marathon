@@ -32,6 +32,10 @@ App.config(['$routeProvider',
 				templateUrl: 'partials/chat.html',
 				controller: 'chatController'
 			}).
+			when('/profile', {
+				templateUrl: 'partials/profile.html',
+				controller: 'profileController'
+			}).
 			otherwise({
 				redirectTo: '/'
 			});
@@ -77,10 +81,11 @@ App.controller('mainController', ['$rootScope', '$scope', 'socket', '$cookieStor
 			{ code: 'matanl', name: "Математический анализ (лекция)"},
 			{ code: 'matanp', name: 'Математический анализ (практика)'},
 			{ code: 'evm', name: 'Практикум ЭВМ' },
+			{ code: 'arch', name: 'Архитектура ЭВМ' },
 			{ code: 'op', name: 'Основы программирования'},
 			{ code: 'algeml', name: 'Алгебра и геометрия (лекция)'},
 			{ code: 'algemp', name: 'Алгебра и геометрия (практика)'},
-			{ code: 'hist', name: "История"}
+			{ code: 'hist', name: "История"},
 		];
 
 		var token = $cookie.get("token");
@@ -292,6 +297,7 @@ App.filter('subject', function (){
 			case 'algemp': return "Алгебра и геометрия (практика)";
 			case 'op': return "Основы программирования";
 			case 'evm': return "Практикум ЭВМ";
+			case 'arch': return 'Архитектура ЭВМ';
 			case 'hist': return "История";
 			default: return null;
 		}

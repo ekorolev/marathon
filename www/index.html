@@ -39,7 +39,11 @@
 					<div class='pull-right user_panel' ng-if='!!auth'>
 						<ul class='nav navbar-nav'>
 							<li><span class='glyphicon glyphicon-user'></span></li>
-							<li><span ng-bind='auth_user.email' class='login'></span></li>
+							<li>
+								<a href='#/profile'>
+									<span ng-bind='auth_user.email' class='login'></span>
+								</a>
+							</li>
 							<li><a href='' ng-click='logout()'><span class='glyphicon glyphicon-log-out'></span></a></li>
 						</ul>
 					</div>
