@@ -65,32 +65,41 @@ module.exports = function (socket, opts) {
 							error: "pwd" 
 						}); 
 					} else{
-						redisStore.create({
-							app: appname,
-							id: user.id,
-							ip: socket.handshake.address,
-							ttl: 3600,
-							d: {
-								user_id: user.id
-							}
-						},
-						function (err, resp) {
-							if (!err) {
 
-								socket.sessionToken = resp.token;
-								socket.user_id = user.id;
-								socket.user = user;
-								callback({
-									success: true,
-									user: user,
-									token: resp.token
-								});
-							} else {
-								callback({
-									error: "db_error"
-								});
-							}
-						});
+						if (!is) {
+							callback({
+								error: "pwd"
+							});
+						} else {
+
+							redisStore.create({
+								app: appname,
+								id: user.id,
+								ip: socket.handshake.address,
+								ttl: 3600,
+								d: {
+									user_id: user.id
+								}
+							},
+							function (err, resp) {
+								if (!err) {
+
+									socket.sessionToken = resp.token;
+									socket.user_id = user.id;
+									socket.user = user;
+									callback({
+										success: true,
+										user: user,
+										token: resp.token
+									});
+								} else {
+									callback({
+										error: "db_error"
+									});
+								}
+							});
+
+						}
 					}
 				});
 			}
