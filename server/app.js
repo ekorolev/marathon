@@ -16,6 +16,9 @@ app.use( express.static(__dirname + "/../www/"));
 app.get('/', function (req, res) {
 	res.sendFile(__dirname+"/../www/index.html");
 });
+app.get('*', function (req, res) {
+	res.redirect('/');
+});
 
 var Users = require('./models/users')({
 	mongoose: mongoose,
