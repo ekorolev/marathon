@@ -73,7 +73,7 @@ App.controller('chatController', ['$rootScope', '$scope', 'socket',
 
 App.controller('mainController', ['$rootScope', '$scope', 'socket', '$cookieStore',
 	function ($root, $scope, socket, $cookie) {
-		$scope.title = '@eakorolev';
+		$scope.title = '132 группа. Марафон посещаемости.';
 
 		$scope.subjects = [
 			{ code: 'diskrl', name: "Дискретная математика (лекция)" },
